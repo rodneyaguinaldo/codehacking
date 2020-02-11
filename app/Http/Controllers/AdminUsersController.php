@@ -10,6 +10,8 @@ use App\Photo;
 use App\Http\Requests;
 use App\Http\Requests\UsersRequest;
 use App\Http\Requests\UsersEditRequest;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUsersController extends Controller
 {
@@ -47,8 +49,7 @@ class AdminUsersController extends Controller
      */
     public function store(UsersRequest $request)
     {
-        // 
-        // User::create($request->all() ); 
+        //  
         if(trim($request->password) == '') {
 
             $input = $request->except('password');
@@ -136,7 +137,7 @@ class AdminUsersController extends Controller
         
         return redirect('./admin/users') ;
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -146,5 +147,14 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         //
+        $user = User::findOrFail($id);
+        unlink(public_path() . "../../../"  . $user->photo->file);
+        $user->delete();
+        
+        // User::findOrFail($id)->delete();
+
+        Session::flash('deleted_user','The user has been deleted');
+        
+        return redirect('./admin/users') ; 
     }
 }
