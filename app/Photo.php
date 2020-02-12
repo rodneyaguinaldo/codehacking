@@ -15,11 +15,8 @@ class Photo extends Model
 
         
         if($photo) {
-            return $this->uploads . $photo;
-            
-        } else {
-            return $this->uploads . "hehe-img.png";
-        }
+            return $this->uploads . $photo; 
+        } 
 
     }
 

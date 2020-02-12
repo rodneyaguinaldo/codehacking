@@ -5,8 +5,13 @@
     @if(Session::has('created_post') )
 
     <p class="bg-success">{{ session('created_post') }} </p>
+  
+    @elseif(Session::has('deleted_post') )
+
+    <p class="bg-success">{{ session('deleted_post') }} </p>
 
     @endif
+
 
     <h1>Posts</h1>
  
@@ -31,10 +36,10 @@
                     <tr>
                         <td>{{ $post->id }}</td> 
                         <td><img height="50" src="{{ $post->photo ? $post->photo->file : 'https:placehold.it/400x400' }}" alt=""></td> 
-                        <td>{{ $post->user ? $post->user->name : 'N/A'  }}</td> 
+                        <td><a href="{{ route('admin.posts.edit', $post->id) }}">{{ $post->user ? $post->user->name : 'N/A'  }}</a></td> 
                         <td>{{ $post->category ? $post->category->name : 'Category Does Not Exist' }}</td>  
                         <td>{{ $post->title }}</td>  
-                        <td>{{ $post->body }}</td>  
+                        <td>{{ str_limit($post->body, 12) }}</td>  
                         <td>{{ $post->created_at->diffForHumans() }}</td> 
                         <td>{{ $post->updated_at ? $post->updated_at->diffForHumans() : 'N/A' }}</td> 
                     </tr> 
