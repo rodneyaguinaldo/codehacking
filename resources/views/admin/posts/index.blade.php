@@ -27,6 +27,8 @@
             <th>Body</th>
             <th>Created</th>
             <th>Updated</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody> 
@@ -39,14 +41,22 @@
                         <td><a href="{{ route('admin.posts.edit', $post->id) }}">{{ $post->user ? $post->user->name : 'N/A'  }}</a></td> 
                         <td>{{ $post->category ? $post->category->name : 'Category Does Not Exist' }}</td>  
                         <td>{{ $post->title }}</td>  
-                        <td>{{ str_limit($post->body, 12) }}</td>  
+                        <td>{{ str_limit($post->body, 20) }}</td>  
                         <td>{{ $post->created_at->diffForHumans() }}</td> 
                         <td>{{ $post->updated_at ? $post->updated_at->diffForHumans() : 'N/A' }}</td> 
+                        <td><a href="{{ route('home.post', $post->id) }}">View Post</a></td>
+                        <td><a href="{{ route('admin.comments.show', $post->id) }}">View Comments</a></td>
                     </tr> 
 
                 @endforeach
             @endif
         </tbody>
     </table>
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-5">
+            {{ $posts->render() }}
+        </div>
+    </div>
 
 @stop

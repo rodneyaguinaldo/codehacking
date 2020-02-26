@@ -11,7 +11,7 @@ use App\User;
 use App\Http\Requests;
 use App\Http\Requests\PostsCreateRequest; 
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth; 
 
 class AdminPostsController extends Controller
 {
@@ -22,7 +22,7 @@ class AdminPostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all(); 
+        $posts = Post::paginate(2); 
         return view('admin.posts.index', compact('posts') );
     }
 
@@ -133,4 +133,13 @@ class AdminPostsController extends Controller
         
         return redirect('/admin/posts') ;
     }
+
+    public function post($id){
+        
+        $post = Post::findOrFail($id);
+        $comments = $post->comments()->whereIsActive(1)->get();
+        return view('post', compact('post', 'comments') );
+
+    }
+
 }
